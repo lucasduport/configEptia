@@ -2,6 +2,10 @@
 
 # Wallpapers
 feh --randomize --bg-fill ~/afs/.confs/wallpapers/*
-ource bashrc
+
+#Config vim
+~/afs/.confs/install.sh
+
 #Opacity
-~/afs/.confs/opacity.sh
+nix profile install nixpkgs#picom
+picom -f -b

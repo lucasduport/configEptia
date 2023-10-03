@@ -8,8 +8,12 @@ if [ ! -d $1 ];
     then echo "$0 takes a directory as argument"; exit 1;
 fi
 
-tree $1
+tree -p $1
 git status $1
+for file in $(echo $1*); do
+    cat -e $file
+done
+
 printf "\nPlease, confirm that you want to tag.\n"; read uselessVar
 
 exercise="$(echo "$1" |sed "s|/||")"
