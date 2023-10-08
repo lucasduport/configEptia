@@ -8,16 +8,14 @@ if [ ! -d $1 ];
     then echo "$0 takes a directory as argument"; exit 1;
 fi
 
-tree -p $1
-git status $1
-for file in $(echo $1*); do
-    cat -e $file
-done
+find . -iname "*.h" -o -iname "*.c" | xargs clang-format -i
+tree -p -a $1
+echo
+git status -s $1
 
-printf "\nPlease, confirm that you want to tag.\n"; read uselessVar
-
+printf "\nPlease, confirm that you want to tag.\n"; read
 exercise="$(echo "$1" |sed "s|/||")"
-tagnumber="$(git tag | grep -c "${exercise}-")"
+tagnumber="$(git tag | grep -c -- "-${exercise}-")"
 tagnumber=$(( "$tagnumber" + 1))
 git add "$1"
 git commit -m "${exercise}: tag number ${tagnumber}"
