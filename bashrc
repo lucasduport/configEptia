@@ -43,8 +43,8 @@ function touchScript(){
         echo "Wrong arg number"
         exit 1
     else
-        printf '#!/bin/sh\n\n\n' > $1
-        chmod u+x $1
+        printf '#!/bin/sh\n\n\n' > "$1"
+        chmod u+x "$1"
     fi
 }
 
@@ -58,35 +58,48 @@ function touchHeader(){
 alias confs="cd ~/afs/.confs"
 alias vim='nvim'
 
-alias s5='cd /home/lucas.duport/afs/ING/S5/piscine_c'
-alias psc='cd /home/lucas.duport/afs/ING/S5/piscine_c'
+alias s5='cd /home/lucas.duport/afs/ING/S5'
+alias psc='cd /home/lucas.duport/afs/ING/S5/piscine_c/piscine-2026-lucas.duport'
+alias tds='cd /home/lucas.duport/afs/ING/S5/piscine_c/tds'
 
-alias format='find . -iname *.h -o -iname *.c | xargs clang-format -i ~/afs/ING/coding-style/.clang-format'
+alias format='find . -iname "*.h" -o -iname "*.c" | xargs clang-format -i'
 alias formatCheck='python3 ~/afs/ING/coding-style/moulinette.py'
 alias netticheck='~/afs/ING/netiquette_checker/leodagan.py -vv'
 alias autoTag='~/afs/.confs/autoTag.sh'
 alias touchMakefile='cp ~/afs/.confs/genericMakefile $(pwd)/Makefile'
+alias touchHeader='cp ~/afs/.confs/genericHeader $(pwd)/header.h'
+alias touchTests='mkdir -p tests; cp ~/afs/.confs/tests.c tests/'
 alias wrapImg='convert -scale 1920x1080 -gravity center'
+alias cleanRam='# sync; echo 1 > /proc/sys/vm/drop_caches'
+alias newEx='python3 ~/afs/.confs/newExercise.py'
+alias cat='bat'
+alias folderSize='du -hd 1'
+alias gdb='gdb -tui'
+alias resource='source ~/afs/.confs/bashrc'
 
-function gccc(){
-    if [ $# -eq 1 ]; then
-        gcc -Wextra -Wall -Werror -Wvla -pedantic -std=c99 -o test $1
-        ./test
-        printf "[%d]\n" $?
+# Rebinds capslock to escape
+setxkbmap -option caps:escape
 
-        rm -rf test
-    elif [ $# -eq 2 ]; then
-        gcc -Wextra -Wall -Werror -Wvla -pedantic -std=c99 -o $1 $2
-        ./$1
-        printf "[%d]\n" $?
+# PS1
+PROMPT_COMMAND=__prompt_command    # Function to generate PS1 after CMDs
+
+__prompt_command() {
+    local EXIT="$?"                # This needs to be first
+    PS1=""
+
+    local RCol='\[\e[0m\]'
+
+    local Red='\[\e[0;31m\]'
+    local Gre='\[\e[0;32m\]'
+    local BYel='\[\e[1;33m\]'
+    local BBlu='\[\e[1;34m\]'
+    local Pur='\[\e[0;35m\]'
+
+    if [ $EXIT != 0 ]; then
+        PS1+="${Red}[$EXIT]${RCol}"        # Add red if exit code non 0
     else
-        echo "Wrong arg nb"
-        exit 1
+        PS1+="${Gre}[$EXIT]${RCol}"
     fi
+
+    PS1+=" ${Pur}[..\${PWD#\${PWD%/*/*}}]${Rcol} ${BYel}> ${RCol}"
 }
-
-STARTCOLOR='\[\e[;35m\]';
-ENDCOLOR="\[\e[m\]"
-
-export PS1="$STARTCOLOR[\$?][...\${PWD#\${PWD%/*/*/*}}]$ $ENDCOLOR"
-

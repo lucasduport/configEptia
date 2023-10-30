@@ -1,14 +1,15 @@
 #!/bin/sh
 
-alias i3lock='i3lock -e -f -p win -i ~/afs/.confs/wallpapers/lockscreen.png'
+alias i3lock='i3lock -e -f -p win -i ~/afs/.confs/wallpapers/goldengate.png'
 
 while true;do
 	{
 		i3lock
         SECONDS=0
-		while [ $SECONDS -lt 3180 ];do
-			if [ $(ps aux | grep i3lock |wc -l) -eq 1 ]; then
-				exit
+        while [ $SECONDS -lt 1500 ];do
+			if [ $(($(pgrep i3lock | wc -l ))) -ge 1 ]; then
+                killall "infinitei3lock."
+				exit 0
 			fi
 		done
 	    aklog

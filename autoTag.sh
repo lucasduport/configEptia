@@ -11,7 +11,7 @@ fi
 find . -iname "*.h" -o -iname "*.c" | xargs clang-format -i
 tree -p -a $1
 echo
-git status -s $1
+git status -u -s $1
 
 printf "\nPlease, confirm that you want to tag.\n"; read
 exercise="$(echo "$1" |sed "s|/||")"

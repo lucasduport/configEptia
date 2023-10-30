@@ -9,12 +9,12 @@ for f in $dot_list; do
 done
 
 for package in $packages_list;
-do 
+do
     nix profile install nixpkgs#$package
 done;
 
 git clone --depth 1 https://github.com/wbthomason/packer.nvim\
     ~/.local/share/nvim/site/pack/packer/start/packer.nvim
 
-git -C config/nvim pull & 
+git -C config/nvim pull &
 nvim --headless -c 'autocmd User PackerComplete quitall' -c 'PackerSync' 2> /dev/null &
