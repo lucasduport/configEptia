@@ -1,3 +1,3 @@
-# epitaConf
+# PIE-Config
 
-My nixOS config at school :)
+My nixOS-i3wm config that I use at school
